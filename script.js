@@ -55,8 +55,14 @@ function handleOperatorClick(event) {
 }
 
 function handleCalculate() {
+  console.log('calculating');
   if (operator && operandA && operandB) {
-    const result = operate(operator, Number(operandA), Number(operandB));
+    console.log('inside');
+    let result = operate(operator, Number(operandA), Number(operandB));
+
+    if (result === Infinity) {
+      result = '0';
+    }
 
     if (String(result).length > 8) {
       result.toFixed(2);
@@ -67,7 +73,7 @@ function handleCalculate() {
     operator = '';
 
     display.textContent = result;
-  } else return;
+  }
 }
 
 function reset() {
