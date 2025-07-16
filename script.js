@@ -1,17 +1,14 @@
 const calculator = document.querySelector('.calculator');
-const operatorButtons = document.querySelectorAll('.operate');
+const operandButtons = document.querySelectorAll('.operand');
 const display = document.querySelector('.display');
 const calculateButton = document.querySelector('.calculate');
-
-const calculationsDisplay = display.querySelector('.calculations');
-const resultsDisplay = display.querySelector('.results');
-
-const operatorButtonsArr = Array.from(operatorButtons);
+const operatorButtons = document.querySelectorAll('.operate');
 
 const clearButton = document.querySelector('.clear');
 
-let operandA, operandB, operator, buttonValue, result;
-let operands = [];
+let operandA = '';
+let operandB = '';
+let operator = '';
 
 function add(operandA, operandB) {
   return operandA + operandB;
@@ -27,6 +24,47 @@ function multiply(operandA, operandB) {
 
 function divide(operandA, operandB) {
   return operandA / operandB;
+}
+
+function handleOperandClick(event) {
+  if (!operator) {
+    operandA += event.target.dataset.value;
+    display.textContent = operandA;
+  } else {
+    operandB += event.target.dataset.value;
+    display.textContent = operandB;
+  }
+}
+
+function handleOperatorClick(event) {
+  operator = event.target.dataset.operate;
+  if (operandB && operandA) {
+    const result = operate(operator, Number(operandA), Number(operandB));
+    operandA = result;
+    operandB = '';
+    console.log(operator, operandA, operandB);
+
+    display.textContent = result;
+    operandA = result;
+  }
+}
+
+function handleCalculate() {
+  console.log(operator, operandA, operandB);
+
+  if (operator && operandA && operandB) {
+    const result = operate(operator, Number(operandA), Number(operandB));
+    operandA = result;
+    operandB = '';
+    display.textContent = result;
+  }
+}
+
+function reset() {
+  display.textContent = '';
+  operandA = '';
+  operandB = '';
+  operator = '';
 }
 
 function operate(operator, operandA, operandB) {
@@ -54,60 +92,14 @@ function operate(operator, operandA, operandB) {
   return result;
 }
 
-calculator.addEventListener('click', event => {
-  buttonValue = event.target.dataset.value;
+operandButtons.forEach(operandButton =>
+  operandButton.addEventListener('click', handleOperandClick)
+);
 
-  if (!buttonValue) return;
+operatorButtons.forEach(operatorButton =>
+  operatorButton.addEventListener('click', handleOperatorClick)
+);
 
-  populateDisplay(buttonValue);
+calculateButton.addEventListener('click', handleCalculate);
 
-  if (operatorButtonsArr.includes(event.target)) {
-    operator = event.target.dataset.operate;
-  }
-});
-
-function populateDisplay(digit) {
-  calculationsDisplay.textContent += digit;
-}
-
-calculateButton.addEventListener('click', event => {
-  const fullString = calculationsDisplay.textContent;
-
-  console.log(fullString);
-
-  switch (operator) {
-    case 'add':
-      operands = fullString.split('+');
-      break;
-
-    case 'subtract':
-      operands = fullString.split('-');
-      break;
-
-    case 'multiply':
-      operands = fullString.split('x');
-      break;
-
-    case 'divide':
-      operands = fullString.split('/');
-      break;
-  }
-
-  if (operands.length !== 2) {
-    console.log(operands[2]);
-    result = operate(operator, operands[0], operands[1]);
-    operands.splice(0, 2);
-    console.log(operands);
-
-    operands.unshift(result);
-    console.log(operands, operator);
-    result = operate(operator, operands[0], operands[1]);
-  } else {
-    [operandA, operandB] = operands.map(item => Number(item));
-    result = operate(operator, operandA, operandB);
-  }
-
-  resultsDisplay.textContent = result;
-
-  operands = [result];
-});
+clearButton.addEventListener('click', reset);

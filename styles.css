@@ -91,21 +91,23 @@ body {
   display: grid;
   width: 40rem;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  grid-template-rows: 2fr repeat(5, 1fr);
+  grid-template-rows: 2fr repeat(4, 1fr);
   gap: 1rem;
 }
 
 .display {
   display: flex;
-  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
   grid-column: 1 / -1;
   padding: 0 1.5rem;
   padding-top: 1rem;
   border-radius: 0.5rem;
   outline: none;
-  font-size: 2.5rem;
+  font-size: 3.5rem;
+  font-weight: 600;
   border: none;
-  border: 1px solid hsl(200 50% 30% / 0.5);
+  border: 2px solid hsl(200 50% 30% / 0.5);
   margin-bottom: 1.5rem;
 }
 
