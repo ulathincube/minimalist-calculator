@@ -27,6 +27,10 @@ function divide(operandA, operandB) {
 }
 
 function handleOperandClick(event) {
+  if (!operator && !operandB) {
+    reset();
+  }
+
   if (!operator) {
     operandA += event.target.dataset.value;
     display.textContent = operandA;
@@ -37,27 +41,33 @@ function handleOperandClick(event) {
 }
 
 function handleOperatorClick(event) {
-  operator = event.target.dataset.operate;
-  if (operandB && operandA) {
+  if (operandB && operandA && operator) {
     const result = operate(operator, Number(operandA), Number(operandB));
     operandA = result;
     operandB = '';
-    console.log(operator, operandA, operandB);
+    operator = '';
 
     display.textContent = result;
     operandA = result;
   }
+
+  operator = event.target.dataset.operate;
 }
 
 function handleCalculate() {
-  console.log(operator, operandA, operandB);
-
   if (operator && operandA && operandB) {
     const result = operate(operator, Number(operandA), Number(operandB));
+
+    if (String(result).length > 8) {
+      result.toFixed(2);
+    }
+
     operandA = result;
     operandB = '';
+    operator = '';
+
     display.textContent = result;
-  }
+  } else return;
 }
 
 function reset() {

@@ -91,7 +91,7 @@ body {
   display: grid;
   width: 40rem;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  grid-template-rows: 2fr repeat(4, 1fr);
+  grid-template-rows: 2fr repeat(5, 1fr);
   gap: 1rem;
 }
 
@@ -136,4 +136,16 @@ body {
 
 .calc-button:hover {
   background-color: hsl(35 100% 45%);
+}
+
+.clear {
+  background-color: red;
+}
+
+.clear:hover {
+  background-color: red;
+}
+
+.calculate {
+  grid-column: 1 / -1;
 }
